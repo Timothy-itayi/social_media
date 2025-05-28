@@ -1,10 +1,8 @@
-# social_media
-
-# 🏎️ Slip Stream
+# 🏎️ Slip Stream ƪ( ` ▿▿▿▿ ´ ƪ)
 
 *A curated social media experience for Formula 1 fans — where racing news meets community.*
 
----
+
 
 ## 📌 Overview
 
@@ -12,7 +10,7 @@
 
 This project is designed as a 6-week solo sprint to showcase full-stack mobile app development with real-world content integration. It is intended for portfolio use and will evolve iteratively.
 
----
+
 
 ## ⚙️ Planned Tech Stack
 
@@ -25,13 +23,13 @@ This project is designed as a 6-week solo sprint to showcase full-stack mobile a
 | **Storage**  | AWS S3 for media (image uploads)         |
 | **Infra**    | Local development, optionally Dockerized |
 
----
+
 
 ## 🗺️ 6-Week Roadmap
 
 ### 🗓️ Week 1 – Setup & Research
 
-* [ ] Initialize Flutter project (targeting iPhone)
+* [x] Initialize Flutter project (targeting iPhone)
 * [ ] Set up Node.js backend with Express and PostgreSQL
 * [ ] Integrate Clerk for authentication
 * [ ] Set up AWS S3 for image storage
