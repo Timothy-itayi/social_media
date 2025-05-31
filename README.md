@@ -32,14 +32,14 @@ This project is designed as a 6-week solo sprint to showcase full-stack mobile a
 * [x] Initialize Flutter project (targeting iPhone)
 * [x] Set up Node.js backend with Express and PostgreSQL
 * [x] build authentication screens from scratch Signup/Signin  
-* [ ] Research and test F1 news APIs (e.g. NewsData.io, scraping Formula1.com)
+* [x] Research and test F1 news APIs (e.g. NewsData.io, scraping Formula1.com)
 
 ### 🗓️ Week 2 – Backend Models & News Integration
 
-* [ ] Create DB models: User, Post, Like, Comment, News
+* [x] Create DB models: User, Post, Like, Comment, News
 * [ ] Build REST API: `/posts`, `/feed`, `/news`, `/comments`
 * [ ] Implement cron-based Lambda to ingest news every 1–2 hours
-* [ ] Store articles in a dedicated news table
+
 
 ### 🗓️ Week 3 – Frontend Auth & Feed UI
 
