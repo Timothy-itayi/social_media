@@ -43,7 +43,6 @@ This project is designed as a 6-week solo sprint to showcase full-stack mobile a
 
 ### 🗓️ Week 3 – Frontend Auth & Feed UI
 
-* [ ] Build login/signup using Clerk
 * [ ] Develop Home Feed UI (mix of news + user posts)
 * [ ] Add create-post screen with text/media support
 * [ ] Implement comment view for each post
