@@ -30,7 +30,7 @@ This project is designed as a 6-week solo sprint to showcase full-stack mobile a
 ### 🗓️ Week 1 – Setup & Research
 
 * [x] Initialize Flutter project (targeting iPhone)
-* [ ] Set up Node.js backend with Express and PostgreSQL
+* [x] Set up Node.js backend with Express and PostgreSQL
 * [ ] Integrate Clerk for authentication
 * [ ] Set up AWS S3 for image storage
 * [ ] Research and test F1 news APIs (e.g. NewsData.io, scraping Formula1.com)
