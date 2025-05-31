@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:slip_stream/main_home.dart';
-import '../widgets/custom_text_field.dart';  // adjust path as needed
+import '../widgets/custom_text_field.dart';
 import '../widgets/custom_button.dart';
-import '../constants/global_variables.dart';
 
 enum Auth { signin, signup }
 
@@ -25,10 +24,97 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+    super.dispose();
+  }
+
+  Widget _authToggleButton(Auth value, String text) {
+    final isSelected = _auth == value;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _auth = value),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.redAccent : Colors.grey.shade900,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.redAccent),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.redAccent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpForm() {
+    return Form(
+      key: _signUpFormKey,
+      child: Column(
+        children: [
+          CustomTextField(controller: _nameController, hintText: "Name"),
+          const SizedBox(height: 12),
+          CustomTextField(controller: _emailController, hintText: "Email"),
+          const SizedBox(height: 12),
+          CustomTextField(controller: _passwordController, hintText: "Password"),
+          const SizedBox(height: 20),
+          CustomButton(
+            text: "Sign Up",
+            onTap: () {
+              if (_signUpFormKey.currentState!.validate()) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: 'Slip Stream'),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSignInForm() {
+    return Form(
+      key: _signInFormKey,
+      child: Column(
+        children: [
+          CustomTextField(controller: _emailController, hintText: "Email"),
+          const SizedBox(height: 12),
+          CustomTextField(controller: _passwordController, hintText: "Password"),
+          const SizedBox(height: 20),
+          CustomButton(
+            text: "Sign In",
+            onTap: () {
+              if (_signInFormKey.currentState!.validate()) {
+                      Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyHomePage(
+                          title: 'Slip Stream',
+                          username: 'Max Verstappen',
+                          profileImageUrl: 'assets/profile00.jpg',
+            ),
+          ),
+        );
+        ;
+                      }
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -36,149 +122,50 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 30),
               const Text(
-                'Welcome to F1 Fan App',
+                'Welcome to\nSlip Stream',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFDC0000), // F1 Red
+                  color: Colors.redAccent,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 30),
 
-              ListTile(
-                tileColor: _auth == Auth.signup ? Color(0xFFF2F2F2) : Colors.black,
-                title: Text(
-                  'Create Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: _auth == Auth.signup ? Colors.black : Colors.white,
-                  ),
-                ),
-                leading: Radio<Auth>(
-                  activeColor: Color(0xFFDC0000),
-                  fillColor: MaterialStateProperty.all(Color(0xFFDC0000)),
-                  value: Auth.signup,
-                  groupValue: _auth,
-                  onChanged: (Auth? val) {
-                    setState(() {
-                      _auth = val!;
-                    });
-                  },
-                ),
+              Row(
+                children: [
+                  _authToggleButton(Auth.signup, "Sign Up"),
+                  const SizedBox(width: 10),
+                  _authToggleButton(Auth.signin, "Sign In"),
+                ],
               ),
-
-              if (_auth == Auth.signup)
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  color: Color(0xFFF2F2F2),
-                  child: Form(
-                    key: _signUpFormKey,
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          controller: _nameController,
-                          hintText: "Name",
-                          // keep default colors inside CustomTextField
-                        ),
-                        const SizedBox(height: 12),
-                        CustomTextField(
-                          controller: _emailController,
-                          hintText: "Email",
-                        ),
-                        const SizedBox(height: 12),
-                        CustomTextField(
-                          controller: _passwordController,
-                          hintText: "Password",
-                        ),
-                        const SizedBox(height: 20),
-                        CustomButton(
-                          text: "Sign Up!",
-                          // If your button supports color param:
-                          // color: Color(0xFFDC0000),
-                          onTap: () {
-                            if (_signUpFormKey.currentState!.validate()) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MyHomePage(title: 'F1 Fan App'),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
               const SizedBox(height: 20),
 
-              ListTile(
-                tileColor: _auth == Auth.signin ? Color(0xFFF2F2F2) : Colors.black,
-                title: Text(
-                  'Sign in to Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: _auth == Auth.signin ? Colors.black : Colors.white,
-                  ),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                leading: Radio<Auth>(
-                  activeColor: Color(0xFFDC0000),
-                  fillColor: MaterialStateProperty.all(Color(0xFFDC0000)),
-                  value: Auth.signin,
-                  groupValue: _auth,
-                  onChanged: (Auth? val) {
-                    setState(() {
-                      _auth = val!;
-                    });
-                  },
-                ),
+                child: _auth == Auth.signup
+                    ? _buildSignUpForm()
+                    : _buildSignInForm(),
               ),
 
-              if (_auth == Auth.signin)
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  color: Color(0xFFF2F2F2),
-                  child: Form(
-                    key: _signInFormKey,
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          controller: _emailController,
-                          hintText: "Email",
-                        ),
-                        const SizedBox(height: 12),
-                        CustomTextField(
-                          controller: _passwordController,
-                          hintText: "Password",
-                        ),
-                        const SizedBox(height: 20),
-                        CustomButton(
-                          text: "Sign In!",
-                          // color: Color(0xFFDC0000),
-                          onTap: () {
-                            if (_signInFormKey.currentState!.validate()) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MyHomePage(title: 'F1 Fan App'),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  '🏁 Built for F1 fans, by F1 fans.',
+                  style: TextStyle(color: Colors.grey.shade600),
                 ),
+              )
             ],
           ),
         ),
