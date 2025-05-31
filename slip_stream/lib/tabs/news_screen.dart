@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'article_detail_screen.dart';
+import '../widgets/article_detail_screen.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});

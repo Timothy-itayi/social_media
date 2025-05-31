@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'article_content_controller.dart';
+import '../tabs/article_content_controller.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
   final String title;

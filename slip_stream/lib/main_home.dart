@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:slip_stream/tabs/feed_screen.dart';
+import 'package:slip_stream/tabs/profile_screen.dart';
+import 'package:slip_stream/tabs/stats_screen.dart';
 import 'tabs/news_screen.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,9 +18,9 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _pages = <Widget>[
     const NewsScreen(),
     Center(child: Text('Chats Placeholder')),
-    Center(child: Text('Events Placeholder')),
-    Center(child: Text('Stats Placeholder')),
-    Center(child: Text('More Placeholder')),
+    const FeedScreen(),
+    const StatsScreen(),
+    const ProfileScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -39,9 +42,9 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
           BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Chats'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Feed'),
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-          BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.deepPurple,
