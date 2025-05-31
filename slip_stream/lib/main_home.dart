@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'tabs/news_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,7 +13,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Center(child: Text('News Feed Placeholder')),
+    const NewsScreen(),
     Center(child: Text('Chats Placeholder')),
     Center(child: Text('Events Placeholder')),
     Center(child: Text('Stats Placeholder')),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Import your auth_screen.dart file here (adjust the path as needed)
 import 'auth/auth_screen.dart';
@@ -6,9 +7,12 @@ import 'auth/auth_screen.dart';
 // If you have a separate sign in screen, import that instead or alongside
 // import 'auth/signin.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
