@@ -23,13 +23,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const List<Widget> _pages = <Widget>[
     NewsScreen(),
     Center(child: Text('Chats Placeholder')),
     FeedScreen(),
     StatsScreen(),
-    ProfileScreen()
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -38,11 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
-    // Set drawer width optimized for iPhone 15 Pro Max
     final double drawerWidth = MediaQuery.of(context).size.width * 0.75;
 
     return Scaffold(
@@ -51,30 +49,42 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.redAccent,
-        title: const Text(
-          'Slip Stream',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+       title: Image.asset(
+    'assets/slip_stream_icon.png',  //
+    height: 40,         // adjust height as needed
+    fit: BoxFit.contain,
+  ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () => _scaffoldKey.currentState?.openDrawer(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: CircleAvatar(
+              radius: 18,
+              backgroundImage: widget.profileImageUrl.startsWith('http')
+                  ? NetworkImage(widget.profileImageUrl)
+                  : AssetImage(widget.profileImageUrl) as ImageProvider,
+            ),
           ),
         ),
-        centerTitle: true,
         actions: [
-          GestureDetector(
-            onTap: () => _scaffoldKey.currentState?.openEndDrawer(),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundImage: widget.profileImageUrl.startsWith('http')
-                    ? NetworkImage(widget.profileImageUrl)
-                    : AssetImage(widget.profileImageUrl) as ImageProvider,
-              ),
-            ),
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.redAccent),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  backgroundColor: Colors.black,
+                  title: const Text('Search Posts', style: TextStyle(color: Colors.white)),
+                  content: const Text('Search functionality coming soon!',
+                      style: TextStyle(color: Colors.white70)),
+                ),
+              );
+            },
           ),
         ],
       ),
-      endDrawer: Container(
+      drawer: Container(
         width: drawerWidth,
         color: const Color.fromARGB(255, 0, 0, 0),
         child: Drawer(
@@ -84,38 +94,35 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: [
                 Container(
-                  height: 300, // Fixed height to prevent overflow
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
+                  height: 300,
                   padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        radius: 36, // Reduced from 48
+                        radius: 36,
                         backgroundImage: widget.profileImageUrl.startsWith('http')
                             ? NetworkImage(widget.profileImageUrl)
                             : AssetImage(widget.profileImageUrl) as ImageProvider,
                       ),
-                      const SizedBox(height: 12), // Reduced from 16
+                      const SizedBox(height: 12),
                       Flexible(
                         child: Text(
                           widget.username,
                           style: const TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 22, // Reduced from 24
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(height: 4), // Reduced from 6
+                      const SizedBox(height: 4),
                       const Flexible(
                         child: Text(
                           'Motorsport fan & F1 enthusiast',
-                          style: TextStyle(color: Colors.white70, fontSize: 14), // Reduced from 16
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
