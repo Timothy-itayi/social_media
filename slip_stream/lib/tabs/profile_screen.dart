@@ -1,6 +1,4 @@
-// lib/tabs/profile_screen.dart
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,186 +10,208 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String _username = 'SlipStreamFan';
-  String _bio = 'Motorsport enthusiast. 🏎️🔥';
   File? _profileImage;
 
-  final ImagePicker _picker = ImagePicker();
+  final List<Post> _posts = [
+    Post(
+      username: 'SlipStream_Fan',
+      handle: '@sSlip_streamer',
+      content: '🚥 The 2026 F1 regulations are set to shake up the grid! New power units with increased electric power, simplified aerodynamics for closer racing, and a focus on sustainability. Get ready for faster, greener, and more thrilling battles on track! 🏎️⚡ #F12026 #Formula1',
+      imageUrl: 'assets/article00.jpg',
+    ),
+    Post(
+      username: 'Lewis Hamilton',
+      handle: '@lewish',
+      content: 'Pushing hard every lap 💪',
+      imageUrl: 'assets/article01.jpg',
+    ),
+  ];
 
   Future<void> _pickImage() async {
-    final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
       setState(() {
-        _profileImage = File(picked.path);
+        _profileImage = File(pickedFile.path);
       });
     }
   }
 
-  void _editProfile() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.black87,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) {
-        String tempName = _username;
-        String tempBio = _bio;
-        final nameController = TextEditingController(text: tempName);
-        final bioController = TextEditingController(text: tempBio);
-
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
-            left: 20,
-            right: 20,
-            top: 20,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  labelStyle: const TextStyle(color: Colors.redAccent),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.redAccent.shade400),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red.shade700, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white12,
-                ),
-                style: const TextStyle(color: Colors.white),
-                onChanged: (val) => tempName = val,
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: bioController,
-                decoration: InputDecoration(
-                  labelText: 'Bio',
-                  labelStyle: const TextStyle(color: Colors.redAccent),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.redAccent.shade400),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red.shade700, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white12,
-                ),
-                maxLines: 3,
-                style: const TextStyle(color: Colors.white),
-                onChanged: (val) => tempBio = val,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _username = tempName.trim();
-                    _bio = tempBio.trim();
-                  });
-                  Navigator.of(ctx).pop();
-                },
-                child: const Text(
-                  'Save',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.black,
-                  backgroundImage: _profileImage != null
-                      ? FileImage(_profileImage!)
-                      : const AssetImage('assets/profile00.jpg') as ImageProvider,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 4,
-                  child: GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.redAccent,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      child: const Icon(Icons.edit, color: Colors.white, size: 20),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 120, // 3:1 banner aspect ratio
+            pinned: true,
+            backgroundColor: Colors.black,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset(
+                'assets/banner00.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 11),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: _pickImage,
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: _profileImage != null
+                                ? FileImage(_profileImage!)
+                                : const AssetImage('assets/profile00.jpg'),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Slip_Stream_fan',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              '@Slip_streamer',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(height: 8),
+
+                    // Edit Profile button
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          backgroundColor: Colors.grey[800],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          minimumSize: const Size(100, 32), // smaller size
+                        ),
+                        onPressed: () {
+                          // Placeholder for edit profile logic
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Edit Profile clicked!')),
+                          );
+                        },
+                        child: const Text(
+                          'Edit Profile',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+                    const Divider(color: Colors.grey),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Text(
-              _username,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.redAccent,
-                letterSpacing: 1.1,
-                fontFamily: 'F1Font', // Optional: if you add a racing-style font asset
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              _bio,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.white70,
-                fontStyle: FontStyle.italic,
-                height: 1.4,
-              ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final post = _posts[index];
+                return Container(
+                  color: Colors.black,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: _profileImage != null
+                                ? FileImage(_profileImage!)
+                                : const AssetImage('assets/profile00.jpg'),
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                post.username,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                post.handle,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        post.content,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      if (post.imageUrl.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.asset(
+                              post.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
+              },
+              childCount: _posts.length,
             ),
-            const SizedBox(height: 30),
-            ElevatedButton.icon(
-              onPressed: _editProfile,
-              icon: const Icon(Icons.edit, color: Colors.white),
-              label: const Text(
-                'Edit Profile',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                elevation: 5,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+}
+
+class Post {
+  final String username;
+  final String handle;
+  final String content;
+  final String imageUrl; // Non-nullable string
+
+  Post({
+    required this.username,
+    required this.handle,
+    required this.content,
+    this.imageUrl = '',
+  });
 }

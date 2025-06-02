@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../widgets/article_detail_screen.dart';
-import '../loading_screens/loading_news.dart';  // Import LoadingCard widget
+import '../loading_screens/loading_news.dart';
+import '../data/place_holder_articles.dart'; // Your local placeholder data
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -15,59 +16,6 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   List<dynamic> articles = [];
   bool isLoading = true;
-
-  // Placeholder articles used if API fails or is empty
-  final List<Map<String, String>> placeholderArticles = [
-    {
-      'title': 'Max Verstappen Wins Monaco GP!',
-      'description': 'In a stunning display of skill, Max Verstappen took victory in the Monaco Grand Prix...',
-      'link': 'https://example.com/monaco-gp-win',
-    },
-    {
-      'title': 'Ferrari Announces New 2025 Car Design',
-      'description': 'Ferrari revealed the design of their new 2025 car, focusing on aerodynamics and speed...',
-      'link': 'https://example.com/ferrari-2025-car',
-    },
-    {
-      'title': 'Lewis Hamilton Hints at Possible Retirement',
-      'description': 'Lewis Hamilton speaks openly about his future plans in Formula 1 after 10 seasons...',
-      'link': 'https://example.com/hamilton-retirement',
-    },
-    {
-      'title': 'New Rules Impacting 2025 Season',
-      'description': 'The FIA has released new rules aiming to make the races more competitive in 2025...',
-      'link': 'https://example.com/fia-new-rules',
-    },
-    {
-      'title': 'Young Drivers to Watch in 2025',
-      'description': 'A list of up-and-coming drivers who are expected to make a mark in the upcoming F1 season...',
-      'link': 'https://example.com/young-drivers-2025',
-    },    {
-      'title': 'Max Verstappen Wins Monaco GP!',
-      'description': 'In a stunning display of skill, Max Verstappen took victory in the Monaco Grand Prix...',
-      'link': 'https://example.com/monaco-gp-win',
-    },
-    {
-      'title': 'Ferrari Announces New 2025 Car Design',
-      'description': 'Ferrari revealed the design of their new 2025 car, focusing on aerodynamics and speed...',
-      'link': 'https://example.com/ferrari-2025-car',
-    },
-    {
-      'title': 'Lewis Hamilton Hints at Possible Retirement',
-      'description': 'Lewis Hamilton speaks openly about his future plans in Formula 1 after 10 seasons...',
-      'link': 'https://example.com/hamilton-retirement',
-    },
-    {
-      'title': 'New Rules Impacting 2025 Season',
-      'description': 'The FIA has released new rules aiming to make the races more competitive in 2025...',
-      'link': 'https://example.com/fia-new-rules',
-    },
-    {
-      'title': 'Young Drivers to Watch in 2025',
-      'description': 'A list of up-and-coming drivers who are expected to make a mark in the upcoming F1 season...',
-      'link': 'https://example.com/young-drivers-2025',
-    }
-  ];
 
   @override
   void initState() {
@@ -111,19 +59,18 @@ class _NewsScreenState extends State<NewsScreen> {
             if (uniqueArticles.isNotEmpty) {
               articles = uniqueArticles;
             } else {
+              // Use placeholder articles with image assets
               articles = placeholderArticles;
             }
             isLoading = false;
           });
         } else {
-          // Fallback to placeholder if unexpected data
           setState(() {
             articles = placeholderArticles;
             isLoading = false;
           });
         }
       } else {
-        // Non-200 status fallback
         setState(() {
           articles = placeholderArticles;
           isLoading = false;
@@ -131,7 +78,6 @@ class _NewsScreenState extends State<NewsScreen> {
       }
     } catch (e) {
       print('Error fetching news: $e');
-      // On error, show placeholders
       setState(() {
         articles = placeholderArticles;
         isLoading = false;
@@ -151,7 +97,6 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // Show 5 loading skeleton cards using LoadingCard widget
       return ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) => const LoadingCard(),
@@ -168,31 +113,58 @@ class _NewsScreenState extends State<NewsScreen> {
         final article = articles[index];
         final title = article['title'] ?? 'No title';
         final shortDescription = _cleanDescription(article['description'] ?? '');
+        final imageAsset = article['imageAsset'] ?? ''; // asset path from placeholder data
 
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: ListTile(
-            title: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 162, 11, 11),
-                decoration: TextDecoration.underline,
+          child: InkWell(
+            onTap: () {
+             Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ArticleDetailScreen(
+      title: title,
+      description: article['description'] ?? '',
+      link: article['link'] ?? '',
+      imageAsset: imageAsset,  // pass image path here
+    ),
+  ),
+);
+
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 162, 11, 11),
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (imageAsset.isNotEmpty)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        imageAsset,
+                        width: double.infinity,
+                        height: 180,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  if (imageAsset.isNotEmpty) const SizedBox(height: 8),
+                  Text(
+                    shortDescription,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
             ),
-            subtitle: Text(shortDescription),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ArticleDetailScreen(
-                    title: title,
-                    description: article['description'] ?? '',
-                    link: article['link'] ?? '',
-                  ),
-                ),
-              );
-            },
           ),
         );
       },
