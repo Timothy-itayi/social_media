@@ -19,14 +19,7 @@ This is an ongoing portfolio project — built solo, built with love, and built 
 
 
 ### Main Screens
-| News Screen | Profile Screen | Feed Screen | Article Screen | Auth Screen | 
-|-------------|---------------|---------------|----------------|------------|
-| <img src="slip_stream/assets/auth-screen-screenshot.png" width="200"/> 
-| <img src="slip_stream/assets/news_screenshot.png" width="200"/> 
-| <img src="slip_stream/assets/profile_screenshot.png" width="200"/> 
-| <img src="slip_stream/assets/feed_screenshot.png" width="200"/> 
-| <img src="slip_stream/assets/article_screenshot.png" width="200"/> 
-|
+<table> <tr> <th>Auth Screen</th> <th>News Screen</th> <th>Profile Screen</th> <th>Feed Screen</th> <th>Article Screen</th> </tr> <tr> <td><img src="slip_stream/assets/auth-screen-screenshot.png" width="200"/></td> <td><img src="slip_stream/assets/news_screenshot.png" width="200"/></td> <td><img src="slip_stream/assets/profile_screenshot.png" width="200"/></td> <td><img src="slip_stream/assets/feed_screenshot.png" width="200"/></td> <td><img src="slip_stream/assets/article_screenshot.png" width="200"/></td> </tr> </table>
 
 ---
 
