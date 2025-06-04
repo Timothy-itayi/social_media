@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:slip_stream/tabs/feed_screen.dart';
 import 'package:slip_stream/tabs/profile_screen.dart';
-import 'package:slip_stream/tabs/stats_screen.dart';
 import 'tabs/news_screen.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -13,8 +12,7 @@ class MyHomePage extends StatefulWidget {
     super.key,
     required this.title,
     this.username = 'Driver',
-    this.profileImageUrl =
-        'https://i.imgur.com/BoN9kdC.png', // Default avatar placeholder
+    this.profileImageUrl = 'https://i.imgur.com/BoN9kdC.png',
   });
 
   @override
@@ -27,9 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const List<Widget> _pages = <Widget>[
     NewsScreen(),
-    Center(child: Text('Chats Placeholder')),
     FeedScreen(),
-    StatsScreen(),
     ProfileScreen(),
   ];
 
@@ -49,11 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.redAccent,
-       title: Image.asset(
-    'assets/slip_stream_icon.png',  //
-    height: 40,         // adjust height as needed
-    fit: BoxFit.contain,
-  ),
+        title: Image.asset(
+          'assets/slip_stream_icon.png',
+          height: 40,
+          fit: BoxFit.contain,
+        ),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => _scaffoldKey.currentState?.openDrawer(),
@@ -76,8 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (_) => AlertDialog(
                   backgroundColor: Colors.black,
                   title: const Text('Search Posts', style: TextStyle(color: Colors.white)),
-                  content: const Text('Search functionality coming soon!',
-                      style: TextStyle(color: Colors.white70)),
+                  content: const Text(
+                    'Search functionality coming soon!',
+                    style: TextStyle(color: Colors.white70),
+                  ),
                 ),
               );
             },
@@ -159,15 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.black,
         selectedItemColor: Colors.redAccent,
         unselectedItemColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Chats'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Feed'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Feed'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
       ),
     );
   }
